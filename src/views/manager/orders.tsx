@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Typography, Input, Space, Table, Modal, Form, Button, message} from 'antd';
-import { listOrder } from "../../service/api/orderApi";
+import { listOrder } from "../../service/api/orderitemApi";
 
 const { Column } = Table;
 const { Title } = Typography;

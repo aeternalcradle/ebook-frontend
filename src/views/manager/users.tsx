@@ -63,7 +63,7 @@ const View = () => {
             username: values.name,
             password: values.password,
             email: values.email,
-            managerPassword: values.managerPassword,
+            isManager: values.isManager,
             banId: values.banId,
         };
         console.log(param);
@@ -89,7 +89,7 @@ const View = () => {
                 <Column title="用户昵称" dataIndex="username" key="username" />
                 <Column title="用户邮箱" dataIndex="email" key="email" />
                 <Column title="用户密码" dataIndex="password" key="password" />
-                <Column title="管理员密码" dataIndex="managerPassword" key="managerPassword" />
+                <Column title="是否为管理员" dataIndex="isManager" key="isManager" />
                 <Column title="是否禁用" dataIndex="banId" key="banId" />
                 <Column
                     title="操作"
@@ -120,7 +120,7 @@ const View = () => {
                     <Form.Item name="password" label="用户密码">
                         <Input />
                     </Form.Item>
-                    <Form.Item name="managerPassword" label="管理员密码">
+                    <Form.Item name="isManager" label="管理员权限">
                         <Input />
                     </Form.Item>
                     <Form.Item name="banId" label="是否禁用">

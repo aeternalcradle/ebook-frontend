@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {Typography, Table, Input, message, Button} from 'antd';
-import { listOrder,editOrder } from '../service/api/orderApi';
+import { listOrder,editOrder } from '../service/api/orderitemApi';
 
 const { Title } = Typography;
 
 function handleEdit() {
-    
+
 }
 const { Search } = Input;
 

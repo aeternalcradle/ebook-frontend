@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {Typography, Input, Space, Table, Button, notification, Form, Modal} from 'antd';
+import {Typography, Input, Space, Table, Button, notification, Form, Modal,Select} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import {deletePoi, editPoi, listPoi} from '../service/api/poiApi';
-import {addOrder} from '../service/api/orderApi';
-import {editBook, editNumBook} from "../service/api/bookApi";
-import * as timers from "timers";
-
 const { Column } = Table;
 const { Title } = Typography;
 const { Search } = Input;
-
+const username = localStorage.getItem("username");
 let xid:any;
+let socket: WebSocket | null = null; // 添加 WebSocket 连接对象
 const onSearch = (value: string) => console.log(value);
 
 const View = () => {
@@ -29,15 +26,15 @@ const View = () => {
     const [form] = Form.useForm();
     useEffect(() => {
         updateList(pageNum, pageSize);
+
     }, []);
+
 
     let pageNum = 1;
     let pageSize = 30;
     let total = 0;
 
-    useEffect(() => {
-        updateList(pageNum, pageSize);
-    }, [pageNum, pageSize]);
+
 
     const updateList = (page: number, pageSize: number) => {
         console.log('update list');
@@ -95,9 +92,9 @@ const View = () => {
             description: '您已成功下订单',
             icon: <SmileOutlined style={{ color: '#108ee9' }} />,
         });
-
         let i = 0,
             j = 0;
+        const paramArray = [];
         const param0 = {
             id: 1,
         };
@@ -106,14 +103,15 @@ const View = () => {
             name: String,
             price: 1,
             num: 1,
-            pid: 1,
+            orderId: 1,
         };
         const param1 = {
             name: String,
             price: 1,
             num: 1,
-            pid: 1,
+            orderId: 1,
             bookId: 1,
+            username: username,
             time: '',
         };
         const param2={
@@ -131,16 +129,18 @@ const View = () => {
             param1.price = dataSource[i].price;
             param1.bookId=dataSource[i].bookId;
             param1.time=dDate;
-            console.log("wdadsad",param1.time)
-            param1.pid = j;
-            addOrder(param1);
-            deletePoi(param.id);
-            editNumBook(dataSource[i].bookId,param2).then(res=>{
-                console.log("减少了一本书籍",dataSource[i].bookId);
-                console.log("尝试减少书籍",res);
-            });
+            param1.orderId = j;
+            paramArray.push({ ...param1 });
             i = i + 1;
         }
+        fetch('http://localhost:8080/orderitem/order-set', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(paramArray), // 将数据转换为 JSON 格式并发送
+        })
+
 
         updateList(1, 30);
     };
@@ -150,8 +150,8 @@ const View = () => {
     return (
         <div className='about'>
             <Title>My Shopping Cart</Title>
+
             <Search
-                placeholder='input search text'
                 allowClear
                 enterButton='Search'
                 size='large'

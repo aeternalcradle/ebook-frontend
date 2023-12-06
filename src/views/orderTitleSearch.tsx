@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Input, Space, Table, Button, Modal, Form } from 'antd';
-import {deleteOrder, detailOrder, editOrder, listOrder} from "../service/api/orderApi";
+import {deleteOrder, detailOrder, editOrder, listOrder} from "../service/api/orderitemApi";
 import {useParams} from "react-router-dom";
 import {listBook} from "../service/api/bookApi";
 

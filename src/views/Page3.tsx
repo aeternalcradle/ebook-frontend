@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { Typography } from 'antd';
 import { Form, Input, Button } from 'antd';
 import type { FormItemProps } from 'antd';
@@ -35,6 +35,27 @@ const MyFormItem = ({ name, ...props }: FormItemProps) => {
 };
 const { Title } = Typography;
 const View = () =>{
+    const [base64Image, setBase64Image] = useState('');
+    const username = localStorage.getItem("username");
+    useEffect(() => {
+        // Fetch the iconBase64 based on the username when the component mounts or when the username changes
+
+        const fetchIconBase64 = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/person/getImage/${username}`);
+                const data = await response.json(); // Assuming the response is in JSON format
+                // Set the base64Image in the state
+                console.log("12346",data.data);
+                setBase64Image(data.data);
+            } catch (error) {
+                console.error('Error fetching iconBase64:', error);
+            }
+        };
+
+        fetchIconBase64();
+    }, [username]);
+
+
     const onFinish = (value: object) => {
         console.log(value);
     };
@@ -59,8 +80,7 @@ const View = () =>{
                             <Space wrap size={16}>
                                 <Image
                                     width={200}
-                                    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                                />
+                                    src={base64Image} alt="Converted to Base64"     />
                             </Space>
                         </Space>
                     </MyFormItem>

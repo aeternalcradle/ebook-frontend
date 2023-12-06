@@ -1,27 +1,24 @@
 import React from 'react';
-import { Typography,Button, Space ,Divider} from 'antd';
+import { Typography,Button, Space ,Divider,Row,Col} from 'antd';
 
 const { Title } = Typography;
 
 const App: React.FC = () => (
-    <>
-        <Title>欢迎来到说的道理的线上书店</Title>
-        <Divider/>
-            <Title level={3}>已有帐户，请登录</Title>
-            <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+    <div className="login-container">
+        <Row justify="center" align="middle" style={{ height: '100vh' }}>
+            <Col>
+                <Title level={5}>Welcome to EBookSrore</Title>
+                <Title level={5}>Log in with your account to continue</Title>
                 <a href="/login" rel="noreferrer">
-                    <Button type="primary" >登录</Button>
+                    <Button type="primary">Log in</Button>
                 </a>
-            <Title level={3}>暂无帐户，请注册</Title>
+                <Divider type="vertical" />
                 <a href="/signup" rel="noreferrer">
-                    <Button type="primary" >注册</Button>
+                    <Button type="primary">Sign up</Button>
                 </a>
-                <Title level={3}>管理员登录入口</Title>
-                <a href="/managerlogin" rel="noreferrer">
-                    <Button type="primary" >管理员登陆</Button>
-                </a>
-        </Space>
-    </>
+            </Col>
+        </Row>
+    </div>
 
 
 );

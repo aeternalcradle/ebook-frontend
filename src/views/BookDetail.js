@@ -16,8 +16,10 @@ const View = () => {
     const { bookId } = useParams(); // 提取URL参数
     const { Title } = Typography;
     const [dataSource, setDataSource] = useState([]);
+    const username=localStorage.getItem("username");
     detailBook(bookId).then(res => {
         setDataSource(res.data.data);
+        console.log("111",dataSource);
     })
     const columns = [
         {
@@ -68,7 +70,8 @@ const View = () => {
             name: dataSource.name,
             price: dataSource.price,
             num: "1",
-            bookId : bookId
+            bookId : bookId,
+            username : username
         };
         addPoi(param).then(res => {
             console.log(res.data);

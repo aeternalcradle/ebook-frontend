@@ -8,6 +8,8 @@ import {BrowserRouter} from "react-router-dom";
 //狀態管理的庫
 import {Provider} from "react-redux"
 import store from "./service/store";
+import { ApolloProvider } from '@apollo/client';
+import client from './apollo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +17,9 @@ const root = ReactDOM.createRoot(
 root.render(
  <Provider store={store}>
       <BrowserRouter>
+          <ApolloProvider client={client}>
           <App />
+          </ApolloProvider>
       </BrowserRouter>
  </Provider>
 );

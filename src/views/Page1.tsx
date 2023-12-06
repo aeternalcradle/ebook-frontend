@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Carousel, Input, message, Space } from 'antd';
+import {Carousel, Input, message, Select, Space} from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import ca1 from "../resources/1 (1).jpg";
@@ -8,9 +8,24 @@ import ca3 from "../resources/1 (3).jpg";
 import ca4 from "../resources/1 (4).jpg";
 import csapp from "../resources/csapp.png";
 import { listBook } from "../service/api/bookApi";
-
+import {useLazyQuery, useQuery} from '@apollo/client';
+import { gql } from 'graphql-tag';
 const { Meta } = Card;
 const { Search } = Input;
+const { Option } = Select;
+
+const GET_BOOK_BY_NAME = gql`
+  query GetBookByName($bookname: String!) {
+    bookByName(name: $bookname) {
+      id
+      name
+      author
+      description
+      price
+   
+    }
+  }
+`;
 
 const contentStyle: React.CSSProperties = {
     margin: 0,
@@ -26,7 +41,12 @@ const BookDisplayPage: React.FC = () => {
     const [pageSize, setPageSize] = useState(30);
     const [total, setTotal] = useState(0);
     const [dataSource, setDataSource] = useState([]);
+    const [bookDetail, setBookDetail] = useState();
     const [searchResults, setSearchResults] = useState([]);
+    const [searchType, setSearchType] = useState('title');
+    const [bookname, setBookname] = useState('');
+    const [getBookByName, { loading, error, data }] = useLazyQuery(GET_BOOK_BY_NAME);
+
 
     useEffect(() => {
         updateList(pageNum, pageSize);
@@ -46,10 +66,17 @@ const BookDisplayPage: React.FC = () => {
     };
 
 
-
     const handleSearch = (value: string) => {
-        console.log("dd",dataSource);
-        console.log("vv",value);
+        if (searchType === 'tag') {
+            // 如果搜索的是标签，跳转到对应的标签搜索页面
+            window.location.href = `http://localhost:3000/searchBookByTag/${value}`;
+            return;
+        }
+        // getBookByName({ variables: { bookname } });
+        // const book = data?.bookByName.id;
+        // window.location.href = `http://localhost:3000/bookdetail/${book}`;
+
+
         let count=0;
         for(let i=0;dataSource[i]!=null;i++)
         {
@@ -67,17 +94,29 @@ const BookDisplayPage: React.FC = () => {
          //第二个修改处
             message.info('未查询到该书籍')
         }
+
     };
+
 
     return (
         <div className='about'>
+            <div style={{ display: 'flex', alignItems: 'stretch' }}>
+            <Select
+                defaultValue="title"
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setSearchType(value)}
+            >
+                <Option value="title">Title</Option>
+                <Option value="tag">Tag</Option>
+            </Select>
             <Search
-                placeholder="input search text"
+                placeholder={searchType === 'title' ? 'Search by title' : 'Search by tag'}
                 allowClear
                 enterButton="Search"
                 size="large"
                 onSearch={handleSearch}
             />
+                </div>
             <p> </p>
             <Carousel autoplay>
                 <div>

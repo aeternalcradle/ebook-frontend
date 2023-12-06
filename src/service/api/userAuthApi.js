@@ -8,6 +8,8 @@ export const managerLoginUserAuth = (param)=>postAction("/userauth/managerlogin"
 
 export const registerUserAuth = (param)=>postAction("/userauth/register",param)
 
+export const logoutUserAuth = () =>postAction("/userauth/logout")
+
 export const listUserAuth = (param) =>getAction("/userauth/list",param)
 
 export const detailUserAuth = (id) =>getAction("/userauth/detail/"+id,null)

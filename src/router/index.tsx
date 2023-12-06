@@ -7,7 +7,7 @@ import Book3 from "../views/books/book3";
 import Book4 from "../views/books/book4";
 import Initial from "../views/initial";
 import Index from "../views/Signup";
-import About from "../views/About";
+import About from "../views/WebSocket";
 import Manage from "../views/manager/manage"
 import Users from "../views/manager/users";
 import Books from "../views/manager/book"
@@ -20,6 +20,9 @@ import OrderTitleSearch from "../views/manager/orderTitleSearch";
 import OrderTitleSearch2 from "../views/orderTitleSearch"
 import OrderTimeSearch2 from "../views/orderTimeSearch";
 import OrderTimeSearch from "../views/manager/orderTimeSearch";
+import SearchAuthorByBookName from "../views/SearchAuthorByBookName";
+import BookByTag from "../views/BookByTag"
+import Test from "../views/test";
 const Home = lazy(()=>import("../views/Home"))
 const Page1 = lazy(()=>import("../views/Page1"))
 const Page2 = lazy(()=>import("../views/Page2"))
@@ -37,7 +40,7 @@ const routes =[
 
     {
         path:"/",
-        element:<Navigate to="/page1"/>
+        element:<Navigate to="/initial"/>
     },
     {
         path:"/",
@@ -64,6 +67,10 @@ const routes =[
                 element: withLoadingComponent(<Page1/>)
             },
             {
+                path: "/SearchBookByTag/:bookTag",
+                element: <BookByTag/>
+            },
+            {
                 path: "/book1",
                 element: <Book1 />
             },
@@ -86,7 +93,13 @@ const routes =[
             },{
                 path: "/ordertimesearch",
                 element: <OrderTimeSearch2 />
-            }
+            },{
+                path:"searchauthorbybookname",
+                element:<SearchAuthorByBookName/>
+            },{
+                path:"test",
+                element:<Test/>
+            },
 
 
         ]
@@ -112,6 +125,7 @@ const routes =[
         path:"/about",
         element: <About/>
     },
+
     {
         path:"/manage",
         element: <Manage/>,

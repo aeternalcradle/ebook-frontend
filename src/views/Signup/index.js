@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {Typography, Button, Space, Divider, Input, message} from 'antd';
+import {Typography, Button, Space, Divider, Input, message, Row, Col} from 'antd';
 import {connect} from "react-redux";
 import {addUser} from "../../service/api/userApi";
 import {addUserAuth, registerUserAuth} from "../../service/api/userAuthApi";
@@ -55,7 +55,10 @@ class Register extends Component{
             message.warning('邮箱格式不正确');
             return;
         }
-
+        else if(param.password!==param.passwordConfirmation){
+            message.warning('两次输入密码不一致');
+            return;
+        }
         registerUserAuth(param).then(res =>{
             if(res.data===0)
             message.warning("该用户名已有人注册")
@@ -65,6 +68,7 @@ class Register extends Component{
             addUserAuth(param).then(res => {
                 console.log((res.data))
             })
+            window.location.href = '/login';
         }
         else{
             message.warning("两次输入密码不相同")
@@ -81,82 +85,80 @@ class Register extends Component{
         };
         const {username,email,password,passwordConfirmation}=this.state;
         return (
-            <div>
+            <div className="login-container">
+                <Row justify="center" align="middle" style={{ height: '100vh' }}>
+                    <Col>
+                        <form onSubmit={this.onSubmit}>
+                            <h1>Join our community</h1>
+                            <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                                <div className="form-group">
+                                    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                                        <label htmlFor="usernameInput" className="control-label">Username</label>
+                                    </Space>
+                                    <Input style={{
+                                        width: 300,
+                                    }}
+                                           type="test"
+                                           name="username"
+                                           value={username}
+                                           onChange={this.changeHandle}
+                                    />
+                                </div>
 
-                <div className="wraper"><a href="/initial" rel="noreferrer">
-                    <Button type="primary" >返回</Button>
-                </a></div>
+                                <div className="form-group">
+                                    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                                        <label htmlFor="emailInput" className="control-label">Email</label>
+                                    </Space>
 
-                <form onSubmit={this.onSubmit}>
-                    <h1>Join our community</h1>
-                    <Divider/>
-                    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                    <div className="form-group">
-                        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                        <label className="control-label">Username</label>
-                        </Space>
-                    <Input style={{
-                        width: 500,
-                    }}
-                        className="form-control"
-                        type="test"
-                        name="username"
-                        value={username}
-                        onChange={this.changeHandle}
-                    />
-                    </div>
+                                    <Input style={{
+                                        width: 300,
+                                    }}
+                                           type="email"
+                                           name="email"
+                                           value={email}
+                                           onChange={this.changeHandle}
+                                    />
+                                </div>
 
-                    <div className="form-group">
-                        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                            <label className="control-label">Email</label>
-                        </Space>
+                                <div className="form-group">
+                                    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                                        <label htmlFor="passwordInput" className="control-label">Password</label>
+                                    </Space>
+                                    <Input style={{
+                                        width: 300,
+                                    }}
+                                           type="password"
+                                           name="password"
+                                           value={password}
+                                           onChange={this.changeHandle}
+                                    />
+                                </div>
 
-                        <Input style={{
-                            width: 500,
-                        }}
-                               className="form-control"
-                               type="email"
-                               name="email"
-                               value={email}
-                               onChange={this.changeHandle}
-                        />
-                    </div>
+                                <div className="form-group">
+                                    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                                        <label htmlFor="passwordConfirmationInput"className="control-label">passwordConfirmation</label>
+                                    </Space>
+                                    <Input style={{
+                                        width: 300,
+                                    }}
+                                           type="password"
+                                           name="passwordConfirmation"
+                                           value={passwordConfirmation}
+                                           onChange={this.changeHandle}
+                                    />
 
-                    <div className="form-group">
-                        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                            <label className="control-label">Password</label>
-                        </Space>
-                        <Input style={{
-                            width: 500,
-                        }}
-                               className="form-control"
-                               type="password"
-                               name="password"
-                               value={password}
-                               onChange={this.changeHandle}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                            <label className="control-label">passwordConfirmation</label>
-                        </Space>
-                        <Input style={{
-                            width: 500,
-                        }}
-                               className="form-control"
-                               type="password"
-                               name="passwordConfirmation"
-                               value={passwordConfirmation}
-                               onChange={this.changeHandle}
-                        />
-
-                    </div>
-                        <div className="form-group">
-                            <Button className="btn btn-primary btn-lg" type="primary" onClick={this.handleSubmit}>注册</Button>
-                        </div>
-                    </Space>
-                </form>
+                                </div>
+                                <div className="form-group">
+                                    <Button type="primary" onClick={this.handleSubmit}>Continue</Button>
+                                    <Divider type="vertical" />
+                                    <a href="/initial" rel="noreferrer">
+                                        <Button type="primary" >Back</Button>
+                                    </a>
+                                </div>
+                            </Space>
+                        </form>
+                    </Col>
+                </Row>
             </div>
         );
     }

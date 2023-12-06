@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import React, { useState,useEffect } from 'react';
+import { Breadcrumb, Layout, Menu, theme,Button } from 'antd';
 import{Outlet,useNavigate}from "react-router-dom"
 import MainMenu from "../../Components/ManagerMenu";
+import "../../design/Home.css"
 const { Header, Content, Footer, Sider } = Layout;
+
 const App: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [userId, setUserId] = useState(localStorage.getItem('userId'));
+    useEffect(() => {
+        setUserId(localStorage.getItem('username'));
+    }, []);
+     const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem('username');
+        // 其他登出操作...
+        navigate('/initial')
+        window.location.reload();
+    };
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -19,6 +32,10 @@ const App: React.FC = () => {
                     <Breadcrumb style={{ margin: '16px 32px' }}>
                         <Breadcrumb.Item>Bookstore Manage System</Breadcrumb.Item>
                         <Breadcrumb.Item>otto</Breadcrumb.Item>
+                        <div className="spacer" /> {/* 添加一个占位元素 */}
+                        {userId && (
+                            <Button type={"primary"} onClick={handleLogout}>Logout</Button>
+                        )}
                     </Breadcrumb>
                 </Header>
                 <Content style={{ margin: '16px 16px ' }}>

@@ -1,6 +1,6 @@
 import {Menu, MenuProps, theme} from "antd";
 import React, {Children, useState} from "react";
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined, BookOutlined, UnorderedListOutlined, UserOutlined} from "@ant-design/icons";
 import {useNavigate,useLocation} from "react-router-dom";
 import * as child_process from "child_process";
 
@@ -10,12 +10,12 @@ const items:MenuItem[]=[
     {
         label:'Books',
         key:'/page1',
-        icon:<PieChartOutlined/>
+        icon:<BookOutlined />
     },
     {
         label:'my Cart',
         key:'/page2',
-        icon:<DesktopOutlined/>
+        icon:<ShoppingCartOutlined />
     },
     {
         label:'my Profile',
@@ -26,7 +26,7 @@ const items:MenuItem[]=[
     {
         label:'my Orders',
         key:'/page4',
-        icon:<TeamOutlined/>,
+        icon:<UnorderedListOutlined />
     }
 
 ]
